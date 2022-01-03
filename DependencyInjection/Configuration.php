@@ -9,13 +9,17 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('enius_bitly');
+        $builder = new TreeBuilder('enius_bitly');
+        if (\method_exists($builder, 'getRootNode')) {
+            $rootNode = $builder->getRootNode();
+        } else {
+            $rootNode = $builder->root('enius_bitly');
+        }
         $rootNode
             ->children()
             ->scalarNode('token')->isRequired()->end()
             ->end();
 
-        return $treeBuilder;
+        return $builder;
     }
 }
